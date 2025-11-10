@@ -18,7 +18,38 @@ const getSingleContact = async (req, res) => {
     });
 };
 
+const createContact = async (req, res) => {
+    const contact = req.body;
+    const result = await mongodb.getDb().collection('contacts').insertOne(contact);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(201).json({ id: result.insertedId });
+};
+
+const updateContact = async (req, res) => {
+    const contactId = new ObjectId(req.params.id);
+    const contact = req.body;
+    const result = await mongodb.getDb().collection('contacts').updateOne({_id: contactId}, {$set: contact});
+    if (result.modifiedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(404).json({ error: 'Contact not found' });
+    }
+};
+
+const deleteContact = async (req, res) => {
+    const contactId = new ObjectId(req.params.id);
+    const result = await mongodb.getDb().collection('contacts').deleteOne({_id: contactId});
+    if (result.deletedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(404).json({ error: 'Contact not found' });
+    }
+};
+
 module.exports = {
     getAllContacts,
-    getSingleContact
+    getSingleContact,
+    createContact,
+    updateContact,
+    deleteContact
 };
