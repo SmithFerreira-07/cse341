@@ -3,3 +3,59 @@ GET http://localhost:3000/contacts
 
 ### Get single contact by ID
 GET http://localhost:3000/contacts/69062a4e21df8e20b2609464
+
+### Create a new contact
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johndoe@example.com",
+  "phone": "+55 11 939503930",
+  "favoriteColor": "blue",
+  "birthday": "1990-01-15"
+}
+
+### Update a contact
+PUT http://localhost:3000/contacts/69062a4e21df8e20b2609464
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "email": "johnsmith@example.com",
+  "phone": "+55 11 939503931",
+  "favoriteColor": "green",
+  "birthday": "1990-01-15"
+}
+
+### Delete a contact
+DELETE http://localhost:3000/contacts/69062a4e21df8e20b2609464
+
+### Test invalid contact creation (missing required fields)
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Jane"
+}
+
+### Test getting non-existent contact
+GET http://localhost:3000/contacts/507f1f77bcf86cd799439011
+
+### Test updating non-existent contact
+PUT http://localhost:3000/contacts/507f1f77bcf86cd799439011
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "test@example.com",
+  "phone": "+1234567890",
+  "favoriteColor": "red",
+  "birthday": "1985-05-20"
+}
+
+### Test deleting non-existent contact
+DELETE http://localhost:3000/contacts/507f1f77bcf86cd799439011
