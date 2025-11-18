@@ -1,7 +1,7 @@
 {
   "name": "cse341",
   "version": "1.0.0",
-  "description": "",
+  "description": "Movies API",
   "license": "ISC",
   "author": "SmithFerreira",
   "type": "commonjs",
@@ -13,6 +13,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongodb": "^6.20.0",
+    "mongoose": "^8.20.0",
     "swagger-ui-express": "^5.0.1"
   }
 }

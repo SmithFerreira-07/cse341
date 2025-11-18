@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Contacts API",
+    "title": "Movies API",
     "version": "1.0.0",
     "description": "CSE341 ASSIGNMENT DOCUMENTATION"
   },
@@ -17,24 +17,24 @@
   ],
   "tags": [
     {
-      "name": "Contacts",
-      "description": "Contact List API"
+      "name": "Movies",
+      "description": "Movie List API"
     }
   ],
   "paths": {
-    "/contacts": {
+    "/movies": {
       "get": {
-        "summary": "Returns the list of all contacts",
-        "tags": ["Contacts"],
+        "summary": "Returns a list of 5 random movies",
+        "tags": ["Movies"],
         "responses": {
           "200": {
-            "description": "The list of contacts",
+            "description": "The list of movies",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Contact"
+                    "$ref": "#/components/schemas/Movie"
                   }
                 }
               }
@@ -43,63 +43,29 @@
         }
       },
       "post": {
-        "summary": "Create a new contact",
-        "tags": ["Contacts"],
+        "summary": "Create a new movie",
+        "tags": ["Movies"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "firstName",
-                  "lastName",
-                  "email",
-                  "phone"
-                ],
-                "properties": {
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "favoriteColor": {
-                    "type": "string"
-                  },
-                  "birthday": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "firstName": "John",
-                  "lastName": "Doe",
-                  "email": "johndoe@example.com",
-                  "phone": "+55 11 939503930",
-                  "favoriteColor": "blue",
-                  "birthday": "1990-01-15"
-                }
+                "$ref": "#/components/schemas/Movie"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Contact created successfully",
+            "description": "Movie created successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
+                    "_id": {
                       "type": "string",
-                      "description": "The id of the created contact"
+                      "description": "The id of the created movie"
                     }
                   }
                 }
@@ -112,10 +78,10 @@
         }
       }
     },
-    "/contacts/{id}": {
+    "/movies/{id}": {
       "get": {
-        "summary": "Get a contact by id",
-        "tags": ["Contacts"],
+        "summary": "Get a movie by id",
+        "tags": ["Movies"],
         "parameters": [
           {
             "in": "path",
@@ -124,28 +90,28 @@
               "type": "string"
             },
             "required": true,
-            "description": "The contact id"
+            "description": "The movie id"
           }
         ],
         "responses": {
           "200": {
-            "description": "The contact data",
+            "description": "The movie data",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/Movie"
                 }
               }
             }
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Movie not found"
           }
         }
       },
       "put": {
-        "summary": "Update a contact",
-        "tags": ["Contacts"],
+        "summary": "Update a movie",
+        "tags": ["Movies"],
         "parameters": [
           {
             "in": "path",
@@ -154,7 +120,7 @@
               "type": "string"
             },
             "required": true,
-            "description": "The contact id"
+            "description": "The movie id"
           }
         ],
         "requestBody": {
@@ -162,51 +128,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "favoriteColor": {
-                    "type": "string"
-                  },
-                  "birthday": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "firstName": "John",
-                  "lastName": "Doe",
-                  "email": "johndoe@example.com",
-                  "phone": "+55 11 939503930",
-                  "favoriteColor": "blue",
-                  "birthday": "1990-01-15"
-                }
+                "$ref": "#/components/schemas/Movie"
               }
             }
           }
         },
         "responses": {
           "204": {
-            "description": "Contact updated successfully"
+            "description": "Movie updated successfully"
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Movie not found"
           }
         }
       },
       "delete": {
-        "summary": "Delete a contact",
-        "tags": ["Contacts"],
+        "summary": "Delete a movie",
+        "tags": ["Movies"],
         "parameters": [
           {
             "in": "path",
@@ -215,15 +153,15 @@
               "type": "string"
             },
             "required": true,
-            "description": "The contact id"
+            "description": "The movie id"
           }
         ],
         "responses": {
-          "204": {
-            "description": "Contact deleted successfully"
+          "200": {
+            "description": "Movie deleted successfully"
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Movie not found"
           }
         }
       }
@@ -231,52 +169,161 @@
   },
   "components": {
     "schemas": {
-      "Contact": {
+      "Movie": {
         "type": "object",
         "required": [
-          "firstName",
-          "lastName",
-          "email",
-          "phone"
+          "title",
+          "plot",
+          "genres",
+          "runtime",
+          "cast",
+          "poster",
+          "fullplot",
+          "languages",
+          "released",
+          "directors",
+          "rated",
+          "awards",
+          "lastupdated",
+          "year",
+          "imdb",
+          "countries",
+          "type",
+          "tomatoes",
+          "num_mflix_comments"
         ],
         "properties": {
           "_id": {
             "type": "string",
-            "description": "The auto-generated id of the contact"
+            "description": "The auto-generated id of the movie"
           },
-          "firstName": {
-            "type": "string",
-            "description": "First name of the contact"
+          "title": {
+            "type": "string"
           },
-          "lastName": {
-            "type": "string",
-            "description": "Last name of the contact"
+          "plot": {
+            "type": "string"
           },
-          "email": {
-            "type": "string",
-            "description": "Email address of the contact"
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
-          "phone": {
-            "type": "string",
-            "description": "Phone number of the contact"
+          "runtime": {
+            "type": "number"
           },
-          "favoriteColor": {
-            "type": "string",
-            "description": "Favorite color of the contact"
+          "cast": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
-          "birthday": {
+          "poster": {
+            "type": "string"
+          },
+          "fullplot": {
+            "type": "string"
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "released": {
             "type": "string",
-            "description": "Birthday of the contact (YYYY-MM-DD format)"
+            "format": "date-time"
+          },
+          "directors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rated": {
+            "type": "string"
+          },
+          "awards": {
+            "type": "object",
+            "properties": {
+              "wins": { "type": "number" },
+              "nominations": { "type": "number" },
+              "text": { "type": "string" }
+            }
+          },
+          "lastupdated": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "imdb": {
+            "type": "object",
+            "properties": {
+              "rating": { "type": "number" },
+              "votes": { "type": "number" },
+              "id": { "type": "number" }
+            }
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          },
+          "tomatoes": {
+            "type": "object",
+            "properties": {
+              "viewer": {
+                "type": "object",
+                "properties": {
+                  "rating": { "type": "number" },
+                  "numReviews": { "type": "number" },
+                  "meter": { "type": "number" }
+                }
+              },
+              "fresh": { "type": "number" },
+              "critic": {
+                "type": "object",
+                "properties": {
+                  "rating": { "type": "number" },
+                  "numReviews": { "type": "number" },
+                  "meter": { "type": "number" }
+                }
+              },
+              "rotten": { "type": "number" },
+              "lastUpdated": { "type": "string", "format": "date-time" }
+            }
           }
         },
         "example": {
-          "_id": "6906290321df8e20b260945f",
-          "firstName": "John",
-          "lastName": "Doe",
-          "email": "johndoe@example.com",
-          "phone": "+55 11 939503930",
-          "favoriteColor": "blue",
-          "birthday": "1990-01-15"
+          "title": "The Great Train Robbery",
+          "plot": "A group of bandits stage a brazen train hold-up, only to find themselves pursued by a posse of local lawmen.",
+          "genres": ["Short", "Western"],
+          "runtime": 11,
+          "cast": ["A.C. Abadie", "Gilbert M. 'Broncho Billy' Anderson", "George Barnes", "Justus D. Barnes"],
+          "poster": "https://m.media-amazon.com/images/M/MV5BMTQ3NzA1MTY3MV5BMl5BanBnXkFtZTgwNzE2MTMwMzE@._V1_SY1000_SX677_AL_.jpg",
+          "fullplot": "Among the earliest existing films in American cinema - notable as the first film that presented a narrative story to tell - it depicts a group of cowboy outlaws who hold up a train and rob the passengers. They are then pursued by a Sheriff's posse. Several scenes have color included - all hand tinted.",
+          "languages": ["English"],
+          "released": "1903-12-01T00:00:00.000Z",
+          "directors": ["Edwin S. Porter"],
+          "rated": "TV-G",
+          "awards": { "wins": 1, "nominations": 0, "text": "1 win." },
+          "lastupdated": "2015-08-13 00:27:59.177000000",
+          "year": 1903,
+          "imdb": { "rating": 7.4, "votes": 9847, "id": 439 },
+          "countries": ["USA"],
+          "type": "movie",
+          "tomatoes": {
+            "viewer": { "rating": 3.7, "numReviews": 2559, "meter": 75 },
+            "fresh": 6,
+            "critic": { "rating": 7.6, "numReviews": 6, "meter": 100 },
+            "rotten": 0,
+            "lastUpdated": "2015-08-08T19:16:10.000Z"
+          }
         }
       }
     }
