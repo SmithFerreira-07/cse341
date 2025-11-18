@@ -44,5 +44,31 @@ Content-Type: application/json
   "plot": "Updated plot description."
 }
 
-### Delete a movie
-DELETE http://localhost:3000/movies/573a1390f29313caabcd4135
+### Get all comments
+GET http://localhost:3000/comments
+
+### Get single comment by ID
+GET http://localhost:3000/comments/5a9427648b0beebeb69579e7
+
+### Create a new comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+  "movie_id": "573a1390f29313caabcd4135",
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "text": "Great movie!",
+  "date": "2015-08-26T00:00:00.000Z"
+}
+
+### Update a comment
+PUT http://localhost:3000/comments/5a9427648b0beebeb69579e7
+Content-Type: application/json
+
+{
+  "text": "Updated comment text"
+}
+
+### Delete a comment
+DELETE http://localhost:3000/comments/5a9427648b0beebeb69579e7

@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Movies API",
+    "title": "Movies and Comments API",
     "version": "1.0.0",
     "description": "CSE341 ASSIGNMENT DOCUMENTATION"
   },
@@ -19,6 +19,10 @@
     {
       "name": "Movies",
       "description": "Movie List API"
+    },
+    {
+      "name": "Comments",
+      "description": "Comments API"
     }
   ],
   "paths": {
@@ -61,19 +65,290 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "The id of the created movie"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Movie"
                 }
               }
             }
           },
           "400": {
             "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "summary": "Returns a list of 5 random comments",
+        "tags": ["Comments"],
+        "responses": {
+          "200": {
+            "description": "The list of comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "movie_id": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "_id": "5a9427648b0bebed057f0b00",
+                    "name": "Mercedes Tyler",
+                    "email": "mercedes_tyler@fakegmail.com",
+                    "movie_id": "573a1390f29313caabcd4323",
+                    "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                    "date": "2002-08-18T12:56:07.000Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new comment",
+        "tags": ["Comments"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "example": {
+                "movie_id": "573a1390f29313caabcd4323",
+                "name": "Mercedes Tyler",
+                "email": "mercedes_tyler@fakegmail.com",
+                "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                "date": "2002-08-18T12:56:07.000Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comment created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "movie_id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "5a9427648b0bebed057f0b00",
+                  "movie_id": "573a1390f29313caabcd4323",
+                  "name": "Mercedes Tyler",
+                  "email": "mercedes_tyler@fakegmail.com",
+                  "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                  "date": "2002-08-18T12:56:07.000Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "summary": "Get a comment by id",
+        "tags": ["Comments"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The comment id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The comment data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "movie_id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "5a9427648b0bebed057f0b00",
+                  "movie_id": "573a1390f29313caabcd4323",
+                  "name": "Mercedes Tyler",
+                  "email": "mercedes_tyler@fakegmail.com",
+                  "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                  "date": "2002-08-18T12:56:07.000Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a comment",
+        "tags": ["Comments"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The comment id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "example": {
+                "movie_id": "573a1390f29313caabcd4323",
+                "name": "Mercedes Tyler",
+                "email": "mercedes_tyler@fakegmail.com",
+                "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                "date": "2002-08-18T12:56:07.000Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "movie_id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "example": {
+                  "_id": "5a9427648b0bebed057f0b00",
+                  "movie_id": "573a1390f29313caabcd4323",
+                  "name": "Mercedes Tyler",
+                  "email": "mercedes_tyler@fakegmail.com",
+                  "text": "Eius veritatis vero facilis quaerat fuga temporibus.",
+                  "date": "2002-08-18T12:56:07.000Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a comment",
+        "tags": ["Comments"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The comment id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted successfully"
+          },
+          "404": {
+            "description": "Comment not found"
           }
         }
       }
@@ -134,8 +409,15 @@
           }
         },
         "responses": {
-          "204": {
-            "description": "Movie updated successfully"
+          "200": {
+            "description": "Movie updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
           },
           "404": {
             "description": "Movie not found"
@@ -297,6 +579,10 @@
               "rotten": { "type": "number" },
               "lastUpdated": { "type": "string", "format": "date-time" }
             }
+          },
+          "num_mflix_comments": {
+            "type": "number",
+            "description": "Number of comments for the movie"
           }
         },
         "example": {
@@ -325,7 +611,51 @@
             "lastUpdated": "2015-08-08T19:16:10.000Z"
           }
         }
+      },
+      "Comment": {
+      "type": "object",
+      "required": [
+        "movie_id",
+        "name",
+        "email",
+        "text",
+        "date"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "The auto-generated id of the comment"
+        },
+        "movie_id": {
+          "type": "string",
+          "description": "The id of the movie this comment belongs to"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the commenter"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the commenter"
+        },
+        "text": {
+          "type": "string",
+          "description": "The comment text"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of the comment"
+        }
+      },
+      "example": {
+        "movie_id": "573a1390f29313caabcd4323",
+        "name": "Mercedes Tyler",
+        "email": "mercedes_tyler@fakegmail.com",
+        "text": "Eius veritatis vero facilis quaerat fuga temporibus. Praesentium expedita sequi repellat id. Corporis minima enim ex. Provident fugit nisi dignissimos nulla nam ipsum aliquam.",
+        "date": "2002-08-18T12:56:07.000Z"
       }
     }
   }
+}
 }

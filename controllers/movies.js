@@ -1,6 +1,6 @@
 const Movie = require('../models/movie');
 
-const getAllMovies = async (req, res) => {
+const getFiveMovies = async (req, res) => {
     try {
         const movies = await Movie.aggregate([{ $sample: { size: 5 } }]);
         res.setHeader('Content-Type', 'application/json');
@@ -43,7 +43,8 @@ const createMovie = async (req, res) => {
         imdb: req.body.imdb,
         countries: req.body.countries,
         type: req.body.type,
-        tomatoes: req.body.tomatoes
+        tomatoes: req.body.tomatoes,
+        num_mflix_comments: req.body.num_mflix_comments
     });
 
     try {
@@ -79,9 +80,10 @@ const updateMovie = async (req, res) => {
         if (req.body.countries != null) movie.countries = req.body.countries;
         if (req.body.type != null) movie.type = req.body.type;
         if (req.body.tomatoes != null) movie.tomatoes = req.body.tomatoes;
+        if (req.body.num_mflix_comments != null) movie.num_mflix_comments = req.body.num_mflix_comments;
 
         const updatedMovie = await movie.save();
-        res.status(204).json(updatedMovie);
+        res.status(200).json(updatedMovie);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -100,7 +102,7 @@ const deleteMovie = async (req, res) => {
 };
 
 module.exports = {
-    getAllMovies,
+    getFiveMovies,
     getSingleMovie,
     createMovie,
     updateMovie,

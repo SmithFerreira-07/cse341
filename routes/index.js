@@ -5,6 +5,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/movies', require('./movies'));
+router.use('/comments', require('./comments'));
 router.use('/api-docs', require('./swagger'));
 
 module.exports = router;
