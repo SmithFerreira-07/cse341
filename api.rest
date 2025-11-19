@@ -32,7 +32,8 @@ Content-Type: application/json
     "critic": { "rating": 7.6, "numReviews": 6, "meter": 100 },
     "rotten": 0,
     "lastUpdated": "2015-08-08T19:16:10.000Z"
-  }
+  },
+  "num_mflix_comments": 0
 }
 
 ### Update a movie
