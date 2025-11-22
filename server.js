@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(session({ 
-  secret: 'your_session_secret', 
+  secret: process.env.SESSION_SECRET, 
   resave: false, 
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
